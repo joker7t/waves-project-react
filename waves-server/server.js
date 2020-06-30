@@ -1,5 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -7,7 +9,9 @@ const app = express();
 connectDB();
 
 //init middleware
-app.use(express.json({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Define api
 app.use('/api/auth', require('./routes/auth'));
