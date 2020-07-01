@@ -6,6 +6,23 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const User = require('../models/User');
+const auth = require('../middleware/auth');
+
+// @route   GET api/auth
+// @desc    get logged in user
+// @access  PRIVATE
+router.get('/auth', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        res.json({
+            ...user._doc,
+            isAdmin: user.role === 0 ? false : true
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
+});
 
 // @route   POST api/users
 // @desc    register user
