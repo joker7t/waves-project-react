@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 // Define api
 app.use('/api/users', require('./routes/users'));
-app.use('/api/contacts', require('./routes/contacts'));
+app.use('/api/products', require('./routes/products'));
 
 const PORT = process.env.PORT || 5000;
 

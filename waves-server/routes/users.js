@@ -8,7 +8,7 @@ require('dotenv').config();
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
-// @route   GET api/auth
+// @route   GET api/users/auth
 // @desc    get logged in user
 // @access  PRIVATE
 router.get('/auth', auth, async (req, res) => {
@@ -24,7 +24,7 @@ router.get('/auth', auth, async (req, res) => {
     }
 });
 
-// @route   POST api/users
+// @route   POST api/users/register
 // @desc    register user
 // @access  PUBLIC
 router.post('/register', [
@@ -73,7 +73,7 @@ router.post('/register', [
     }
 });
 
-// @route   POST api/auth
+// @route   POST api/users/login
 // @desc    auth user and get token
 // @access  PRIVATE
 router.post('/login', [
