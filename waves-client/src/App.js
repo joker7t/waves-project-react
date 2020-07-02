@@ -10,6 +10,8 @@ import PublicRoute from './components/authRoutes/PublicRoute';
 import PrivateRoute from './components/authRoutes/PrivateRoute';
 import jwt_decode from 'jwt-decode';
 import setJwtToken from './utils/setJwtToken';
+import Header from './components/layouts/header/Header';
+import Footer from './components/layouts/footer/Footer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,6 +41,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <Header />
       <Router>
         <div className="App">
           <Switch>
@@ -57,6 +60,7 @@ function App() {
           </Switch>
         </div>
       </Router>
+      <Footer />
     </Provider>
   );
 }
