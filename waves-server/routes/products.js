@@ -143,7 +143,7 @@ router.get('/article/', [auth, admin], async (req, res) => {
                 }
             }
             res.json({
-                sucess: true,
+                success: true,
                 productdata: products
             });
         } else {
@@ -159,6 +159,42 @@ router.get('/article/', [auth, admin], async (req, res) => {
         console.log(error.message);
         res.status(500).send('Server error');
     }
+});
+
+// @route   GET api/products/article
+// @param   sortBy
+// @param   order
+// @param   limit
+// @param   skip
+// @desc    get all products with limit and skip and sort by create time
+// @access  PRIVATE
+router.get('/articles/', [auth, admin], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+        let order = req.query.order ? req.query.order : 'asc';
+        let limit = req.query.limit ? req.query.limit : 100;
+        let skip = req.query.skip ? req.query.skip : 0;
+
+        let products = await Product.find({})
+            .populate('brand').populate('wood')
+            .sort([[sortBy, order]])
+            .limit(limit)
+            .skip(skip)
+            ;
+
+        res.json({
+            success: true,
+            productdata: products
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
+
 });
 
 module.exports = router;
