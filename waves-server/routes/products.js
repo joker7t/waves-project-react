@@ -176,8 +176,8 @@ router.get('/articles/', [auth, admin], async (req, res) => {
     try {
         let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
         let order = req.query.order ? req.query.order : 'asc';
-        let limit = req.query.limit ? req.query.limit : 100;
-        let skip = req.query.skip ? req.query.skip : 0;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+        let skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
         let products = await Product.find({})
             .populate('brand').populate('wood')
