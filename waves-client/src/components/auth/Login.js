@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import setJwtToken from '../../utils/setJwtToken';
 import { login } from '../../actions/userAction';
 
-const Login = ({ history, login }) => {
+const Login = ({ login }) => {
     const [loginUser, setLoginUser] = useState({
         email: 'toan@gmail.com',
         password: '123456'
@@ -23,7 +23,6 @@ const Login = ({ history, login }) => {
             setJwtToken(userdata);
             const decodedToken = jwt_decode(userdata);
             login(decodedToken.user);
-            history.push('/');
         } catch (error) {
             console.log(error);
             setErrorMessage('Wrong Credentials');
@@ -64,6 +63,7 @@ const Login = ({ history, login }) => {
                                     value={loginUser.email}
                                     onChange={handleChange}
                                     required
+                                    placeholder='Enter your email'
                                 />
                                 <input
                                     type='password'
@@ -71,6 +71,7 @@ const Login = ({ history, login }) => {
                                     value={loginUser.password}
                                     onChange={handleChange}
                                     required
+                                    placeholder='Enter your password'
                                 />
                                 {errorMessage && <div className='error_label'>{errorMessage}</div>}
                                 <Button

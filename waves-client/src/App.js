@@ -12,6 +12,7 @@ import jwt_decode from 'jwt-decode';
 import setJwtToken from './utils/setJwtToken';
 import Header from './components/layouts/header/Header';
 import Footer from './components/layouts/footer/Footer';
+import UserDashboard from './components/auth/user/UserDashboard';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -24,9 +25,9 @@ function App() {
   //     const currentTime = Date.now() / 1000;
   //     if (decodedToken.exp < currentTime) {
   //       handleExpireToken();
-  //       window.location.href = LOGIN;
   //     } else {
-  //       setUser(decodedToken.user.id);
+  //       setUser(decodedToken.user);
+  //         store.dispatch
   //     }
   //   }
 
@@ -37,6 +38,7 @@ function App() {
   //   localStorage.removeItem("token");
   //   setJwtToken(false);
   //   setUser(null);
+  //  window.location.href = LOGIN;
   // }
 
   return (
@@ -54,6 +56,7 @@ function App() {
             }
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/user/dashboard' component={UserDashboard} />
             <Route exact path='/' component={Home} />
 
             <Redirect to='/' />
