@@ -1,17 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '../../utils/Button';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import PropTypes from "prop-types";
+import setJwtToken from '../../utils/setJwtToken';
+import { login } from '../../actions/userAction';
 
-const Login = () => {
+const Login = ({ history, login }) => {
     const [loginUser, setLoginUser] = useState({
-        email: '',
-        password: ''
+        email: 'toan@gmail.com',
+        password: '123456'
     });
-    const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const onLogin = (e) => {
+    const onLogin = async (e) => {
         e.preventDefault();
-
+        try {
+            const res = await axios.post('/api/users/login', loginUser);
+            const { userdata } = res.data;
+            localStorage.setItem("token", userdata);
+            setJwtToken(userdata);
+            const decodedToken = jwt_decode(userdata);
+            login(decodedToken.user);
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+            setErrorMessage('Wrong Credentials');
+        }
     }
 
     const handleChange = (e) => {
@@ -56,6 +72,7 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                 />
+                                {errorMessage && <div className='error_label'>{errorMessage}</div>}
                                 <Button
                                     type='submit'
                                     title='LOGIN'
@@ -72,4 +89,8 @@ const Login = () => {
     );
 }
 
-export default Login;
+Login.propTypes = {
+    login: PropTypes.func.isRequired
+};
+
+export default connect(null, { login })(Login);
