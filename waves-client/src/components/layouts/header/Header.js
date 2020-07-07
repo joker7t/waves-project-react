@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { setUserDetails } from '../../../actions/userAction';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-const Header = () => {
+const Header = ({ setUserDetails, userDetails, user }) => {
+    // const [userInfo, setIserInfo]
+
+    useEffect(() => {
+        const loadUserDetails = async () => {
+            if (user) {
+                try {
+                    const userInfo = await axios.get('/api/users/auth');
+                    setUserDetails(userInfo.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+
+        loadUserDetails();
+
+        //eslint-disable-next-line
+    }, []);
+
     return (
         <header className='bck_b_light'>
             <div className='container' style={{ height: '100%' }}>
@@ -22,4 +44,9 @@ const Header = () => {
     );
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+    user: state.auth.user,
+    userDetails: state.auth.userDetails
+});
+
+export default connect(mapStateToProps, { setUserDetails })(Header);
