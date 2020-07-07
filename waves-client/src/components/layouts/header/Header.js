@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
     return (
         <header className='bck_b_light'>
-            <div className='container'>
+            <div className='container' style={{ height: '100%' }}>
                 <div className='left'>
                     <div className='logo'>
                         Waves

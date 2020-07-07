@@ -6,8 +6,9 @@ import jwt_decode from 'jwt-decode';
 import PropTypes from "prop-types";
 import setJwtToken from '../../utils/setJwtToken';
 import { register } from '../../actions/userAction';
+import Loader from '../../utils/Loader';
 
-const Register = ({ register }) => {
+const Register = ({ register, setUser }) => {
     const [registerUser, setRegisterUser] = useState({
         name: '',
         lastname: '',
@@ -16,6 +17,7 @@ const Register = ({ register }) => {
         confirmPassword: ''
     });
     const [errorMessage, setErrorMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -25,12 +27,14 @@ const Register = ({ register }) => {
             setErrorMessage('Confirm password does not match');
         } else {
             try {
+                setIsLoading(true);
                 const res = await axios.post('/api/users/register', registerUser);
                 const { userdata } = res.data;
                 localStorage.setItem("token", userdata);
                 setJwtToken(userdata);
                 const decodedToken = jwt_decode(userdata);
                 register(decodedToken.user);
+                setUser(decodedToken.user);
             } catch (error) {
                 console.log(error);
                 setErrorMessage('Register failed');
@@ -45,6 +49,7 @@ const Register = ({ register }) => {
 
     return (
         <div className='page_wrapper'>
+            {isLoading && <Loader />}
             <div className='container'>
                 <div className='register_login_container'>
                     <div className='left'>
