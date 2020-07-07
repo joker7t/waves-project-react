@@ -11,8 +11,9 @@ body {
     margin: 0 auto;
 }
 .page_container {
+    height: fit-content;
     min-height: 75vh;
-    padding-top: 85px;
+    
 }
 .main_loader {
     position: fixed;
@@ -343,7 +344,7 @@ header .log_out_link {
 
     header .container .right .top,
     header .container .right .bottom{
-        font-weight: 300;
+        font-weight: 500;
         font-size: 10px;
         padding: 8px 10px;
     }
@@ -418,7 +419,7 @@ footer .business_nfo .nfo {
 
 .featured_container .featured_image {
     position:relative;
-    background-size: cover !important;
+    background-size: 100% 100% !important;
     background-position: center left !important;
 }
 
@@ -445,6 +446,16 @@ footer .business_nfo .nfo {
     font-size: 50px;
     font-weight: 300;
     margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .featured_container .featured_action .tag.title {
+        font-size: 50px;
+    }
+    
+    .featured_container .featured_action .tag.low_title {
+        font-size: 25px;
+    }
 }
 
 /*============================
