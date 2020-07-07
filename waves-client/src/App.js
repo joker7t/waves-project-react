@@ -24,7 +24,6 @@ function App() {
       type: LOGIN,
       payload: null
     });
-    window.location.href = '/login';
   }
 
   const token = localStorage.token;
@@ -44,8 +43,8 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Header />
       <Router>
+        <Header />
         <div className="App">
           <Switch>
 
