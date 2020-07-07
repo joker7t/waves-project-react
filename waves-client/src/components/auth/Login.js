@@ -8,7 +8,7 @@ import setJwtToken from '../../utils/setJwtToken';
 import { login } from '../../actions/userAction';
 import Loader from '../../utils/Loader';
 
-const Login = ({ login, setUser }) => {
+const Login = ({ login }) => {
     const [loginUser, setLoginUser] = useState({
         email: 'toan@gmail.com',
         password: '123456'
@@ -26,8 +26,6 @@ const Login = ({ login, setUser }) => {
             setJwtToken(userdata);
             const decodedToken = jwt_decode(userdata);
             login(decodedToken.user);
-            setUser(decodedToken.user);
-
         } catch (error) {
             console.log(error);
             setErrorMessage('Wrong Credentials');

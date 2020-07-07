@@ -1,18 +1,15 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const PublicRoute = ({ component: Comp, user, setUser, restricted, auth, ...otherProps }) => {
+const PublicRoute = ({ component: Comp, user, restricted, ...otherProps }) => {
     return (
         <Route {...otherProps} component={(props) =>
             restricted ?
                 (user ?
                     <Redirect to='/' />
                     :
-                    (auth ?
-                        <Comp {...props} setUser={setUser} />
-                        :
-                        <Comp {...props} />
-                    )
+                    <Comp {...props} />
                 )
                 :
                 <Comp {...props} />
@@ -20,4 +17,8 @@ const PublicRoute = ({ component: Comp, user, setUser, restricted, auth, ...othe
     );
 }
 
-export default PublicRoute;
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+});
+
+export default connect(mapStateToProps, null)(PublicRoute);

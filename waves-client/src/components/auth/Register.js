@@ -8,7 +8,7 @@ import setJwtToken from '../../utils/setJwtToken';
 import { register } from '../../actions/userAction';
 import Loader from '../../utils/Loader';
 
-const Register = ({ register, setUser }) => {
+const Register = ({ register }) => {
     const [registerUser, setRegisterUser] = useState({
         name: '',
         lastname: '',
@@ -34,7 +34,6 @@ const Register = ({ register, setUser }) => {
                 setJwtToken(userdata);
                 const decodedToken = jwt_decode(userdata);
                 register(decodedToken.user);
-                setUser(decodedToken.user);
             } catch (error) {
                 console.log(error);
                 setErrorMessage('Register failed');
