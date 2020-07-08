@@ -464,7 +464,7 @@ footer .business_nfo .nfo {
 
 .home_promotion .home_promotion_img {
     height: 400px;
-    background-size: cover !important;
+    background-size: 100% 100% !important;
     background-position: top center !important;
     padding: 73px;
     box-sizing: border-box;
@@ -482,20 +482,27 @@ footer .business_nfo .nfo {
 .home_promotion .tag.title {
     font-size: 70px;
     font-weight: 700;
-    margin: 10px auto;
 }
 
 .home_promotion .tag.low_title {
     font-size: 50px;
     font-weight: 300;
     margin-top: 10px;
-    margin: 0 auto;
 }
 
 .home_promotion .my_link a {
     margin: 10px auto;
 }
 
+@media (max-width: 768px) {
+    .home_promotion .tag.title {
+        font-size: 50px;
+    }
+    
+    .home_promotion .tag.low_title {
+        font-size: 25px;
+    }
+}
 
 /*============================
         CARD BLOCK
