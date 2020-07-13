@@ -607,18 +607,20 @@ footer .business_nfo .nfo {
 }
 
 .card_item_wrapper.grid_bars .action_container {
-    flex-grow: 12;
+    flex-grow: 1;
     border: 1px solid #e6e6e6;
     position: relative;
 }
 
 .card_item_wrapper.grid_bars .description{
     border-top: 1px solid #eeeeee;
-    width: calc(100% - 20px);
+    width: calc(100% - 50px);
     position: absolute;
     left: 0;
-    bottom: 0;
-    padding: 5px 10px 5px 10px;
+    top: 40px;
+    padding: 15px 10px 15px 10px;
+    margin: 0 15px 0 15px;
+    font-weight: bold;
 }
 
 .card_item_wrapper.grid_bars .tags{
