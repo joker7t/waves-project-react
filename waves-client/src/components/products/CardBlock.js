@@ -8,6 +8,7 @@ const CardBlock = ({ title, list }) => {
             <Card
                 key={i}
                 card={card}
+                grid='grid_bars'
             />
         )) : null
 

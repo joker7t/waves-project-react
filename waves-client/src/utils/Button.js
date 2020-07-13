@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Button = ({ type, title, linkTo, addStyles }) => {
+const Button = ({ type, title, linkTo, addStyles, altClass, action }) => {
 
     const buttons = () => {
         let template = '';
@@ -11,7 +11,7 @@ const Button = ({ type, title, linkTo, addStyles }) => {
                     <Link
                         to={linkTo}
                         style={addStyles}
-                        className='link_default'
+                        className={altClass ? altClass : 'link_default'}
                     >
                         {title}
                     </Link>

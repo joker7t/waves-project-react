@@ -1,5 +1,8 @@
 import React from 'react';
 import DefaultImage from '../../images/image_not_availble.png';
+import Button from '../../utils/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import faShoppingBag from '@fortawesome/fontawesome-free-solid/faShoppingBag';
 
 const Card = ({ card, grid }) => {
 
@@ -27,8 +30,29 @@ const Card = ({ card, grid }) => {
                         {card.description}
                     </div>
                 }
-            </div>
+                <div className='actions'>
+                    <div className='button_wrapp'>
+                        <Button
+                            type='default'
+                            altClass='card_link'
+                            title='View product'
+                            linkTo={`/product_detail/${card._id}`}
+                        />
+                    </div>
 
+                    <div className='button_wrapp'>
+                        <div
+                            className='bag_link'
+                            onClick={() => console.log('haha')}
+                        >
+                            <FontAwesomeIcon
+                                icon={faShoppingBag}
+                                className='icon'
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

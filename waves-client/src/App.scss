@@ -212,6 +212,7 @@ select {
     background: #f8f8f8;
     transition: all 200ms ease-in;
     cursor: pointer;
+    z-index: 1000;
 }
 .card_link:hover,
 .bag_link:hover,
@@ -583,6 +584,8 @@ footer .business_nfo .nfo {
 }
 
 .card_item_wrapper .actions {
+    margin: auto;
+    width: fit-content;
     display: flex;
     padding: 15px 0 10px 0;
 }
@@ -643,9 +646,12 @@ footer .business_nfo .nfo {
 }
 
 .card_item_wrapper.grid_bars .actions {
-    clear:both;
-    float:right;
+    // clear:both;
+    // float:right;
+    position: absolute;
     padding: 10px 20px 0px 15px;
+    right: 0;
+    bottom: 15px;
 }
 
 @media (max-width: 768px) {
