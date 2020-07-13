@@ -243,8 +243,15 @@ select {
 
 .page_top {
     border-bottom: 1px solid #999592;   
-    padding: 20px 0px;
+    padding: 20px 20px;
     text-transform: uppercase;
+    padding-top: 100px;
+}
+
+@media (max-width: 768px) {
+    .page_top {
+        padding-top: 80px;
+    }
 }
 
 
@@ -265,6 +272,7 @@ header .logo {
     color: #ffffff;
     font-size: 40px;
     padding: 11px 0px;
+    text-align: center;
 }
 
 header a {
@@ -327,7 +335,7 @@ header .log_out_link {
     }
 
     header .logo {
-        font-size: 30px;
+        font-size: 25px;
         padding: auto 0px;
     }
     
@@ -678,6 +686,7 @@ footer .business_nfo .nfo {
 
 .shop_wrapper {
     display:flex;
+    min-height: 800px;
 }
 
 .shop_wrapper .left {

@@ -14,6 +14,7 @@ import Header from './components/layouts/header/Header';
 import Footer from './components/layouts/footer/Footer';
 import UserDashboard from './components/auth/user/UserDashboard';
 import { LOGIN } from './actions/type';
+import Shop from './components/shop/Shop';
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
             <PublicRoute restricted={true} exact path='/register' component={Register} />
 
             <PrivateRoute needAdminRole={false} exact path='/' component={Home} />
+            <PrivateRoute needAdminRole={false} exact path='/shop' component={Shop} />
             <PrivateRoute needAdminRole={false} exact path='/user/dashboard' component={UserDashboard} />
 
             <Redirect to='/' />

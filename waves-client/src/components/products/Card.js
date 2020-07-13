@@ -23,7 +23,7 @@ const Card = ({ card, grid }) => {
                 <div className='tags'>
                     <div className='brand'>{card.brand.name}</div>
                     <div className='name'>{card.name}</div>
-                    <div className='price'>{card.price}</div>
+                    <div className='price'>$ {card.price}</div>
                 </div>
                 {grid &&
                     <div className='description'>
