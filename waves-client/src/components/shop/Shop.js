@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PageTop from '../../utils/PageTop';
 import { connect } from 'react-redux';
-import { getBrands, getWoods } from '../../actions/productAction';
+import { getBrands, getWoods, getShop } from '../../actions/productAction';
 import axios from 'axios';
 import CollapseCheckbox from '../../utils/CollapseCheckbox';
 import { frets, price } from '../../utils/Category';
 import CollapseRadio from '../../utils/CollapseRadio';
 
-const Shop = ({ getBrands, getWoods, product }) => {
+const Shop = ({ getBrands, getWoods, getShop, product }) => {
 
     const [shopData, setShopData] = useState({
         grid: '',
@@ -28,6 +28,12 @@ const Shop = ({ getBrands, getWoods, product }) => {
                 getBrands(brandRes.data.branddata);
                 const woodRes = await axios.get('/api/products/woods');
                 getWoods(woodRes.data.wooddata);
+                const shopProductRes = await axios.post('/api/products/shop', {
+                    limit: shopData.limit,
+                    skip: shopData.skip,
+                    filters: shopData.filters
+                });
+                getShop(shopProductRes.data.productdata);
             } catch (error) {
                 console.log(error);
             }
@@ -40,13 +46,24 @@ const Shop = ({ getBrands, getWoods, product }) => {
 
     const handlePrice = (priceId) => price.filter(priceItem => priceItem._id === parseInt(priceId))[0].array
 
-    const handleFilters = (filters, category) => {
+    const handleFilters = async (filters, category) => {
         const newFilters = { ...shopData.filters };
         newFilters[category] = filters;
         if (category === 'price') {
             newFilters[category] = handlePrice(filters);
         }
         setShopData({ ...shopData, filters: newFilters });
+        const shopProductRes = await axios.post('/api/products/shop', {
+            limit: shopData.limit,
+            skip: 0,
+            filters: newFilters
+        });
+        console.log({
+            limit: shopData.limit,
+            skip: 0,
+            filters: newFilters
+        })
+        getShop(shopProductRes.data.productdata);
     }
 
     return (
@@ -93,4 +110,4 @@ const mapStateToProps = (state) => ({
     product: state.product
 });
 
-export default connect(mapStateToProps, { getBrands, getWoods })(Shop);
+export default connect(mapStateToProps, { getBrands, getWoods, getShop })(Shop);

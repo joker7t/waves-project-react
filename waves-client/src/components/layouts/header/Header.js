@@ -54,8 +54,10 @@ const Header = ({ setUserDetails, userDetails, user, login }) => {
         <header className='bck_b_light'>
             <div className='container' style={{ height: '100%' }}>
                 <div className='left'>
-                    <div className='logo'>
-                        Waves
+                    <div className='logo' style={{ cursor: 'pointer' }}>
+                        <Link to='/'>
+                            Waves
+                        </Link>
                     </div>
                 </div>
                 <div className='right'>
