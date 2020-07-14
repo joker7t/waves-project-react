@@ -1,10 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageTop from '../../utils/PageTop';
 import { connect } from 'react-redux';
 import { getBrands, getWoods } from '../../actions/productAction';
 import axios from 'axios';
+import CollapseCheckbox from '../../utils/CollapseCheckbox';
+import { frets } from '../../utils/FretCategory';
 
-const Shop = ({ getBrands, getWoods }) => {
+const Shop = ({ getBrands, getWoods, product }) => {
+
+    const [shopData, setShopData] = useState({
+        grid: '',
+        limit: 6,
+        skip: 0,
+        filters: {
+            brand: [],
+            frets: [],
+            wood: [],
+            price: []
+        }
+    });
 
     useEffect(() => {
         const loadData = async () => {
@@ -23,16 +37,39 @@ const Shop = ({ getBrands, getWoods }) => {
         //eslint-disable-next-line
     }, []);
 
+    const handleFilters = (filters, category) => {
+        const newFilters = { ...shopData.filters };
+        newFilters[category] = filters;
+        setShopData({ ...shopData, filters: newFilters });
+    }
+
     return (
         <div>
             <PageTop title='Browse Products' />
             <div className='container'>
                 <div className='shop_wrapper'>
                     <div className='left'>
-
+                        <CollapseCheckbox
+                            initialState={true}
+                            title='Brands'
+                            list={product.brands}
+                            handleFilters={(filters) => handleFilters(filters, 'brand')}
+                        />
+                        <CollapseCheckbox
+                            initialState={false}
+                            title='Frets'
+                            list={frets}
+                            handleFilters={(filters) => handleFilters(filters, 'fret')}
+                        />
+                        <CollapseCheckbox
+                            initialState={false}
+                            title='Woods'
+                            list={product.woods}
+                            handleFilters={(filters) => handleFilters(filters, 'wood')}
+                        />
                     </div>
                     <div className='right'>
-
+                        right
                     </div>
                 </div>
             </div>
