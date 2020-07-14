@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { getBrands, getWoods } from '../../actions/productAction';
 import axios from 'axios';
 import CollapseCheckbox from '../../utils/CollapseCheckbox';
-import { frets } from '../../utils/FretCategory';
+import { frets, price } from '../../utils/Category';
+import CollapseRadio from '../../utils/CollapseRadio';
 
 const Shop = ({ getBrands, getWoods, product }) => {
 
@@ -37,9 +38,14 @@ const Shop = ({ getBrands, getWoods, product }) => {
         //eslint-disable-next-line
     }, []);
 
+    const handlePrice = (priceId) => price.filter(priceItem => priceItem._id === parseInt(priceId))[0].array
+
     const handleFilters = (filters, category) => {
         const newFilters = { ...shopData.filters };
         newFilters[category] = filters;
+        if (category === 'price') {
+            newFilters[category] = handlePrice(filters);
+        }
         setShopData({ ...shopData, filters: newFilters });
     }
 
@@ -66,6 +72,12 @@ const Shop = ({ getBrands, getWoods, product }) => {
                             title='Woods'
                             list={product.woods}
                             handleFilters={(filters) => handleFilters(filters, 'wood')}
+                        />
+                        <CollapseRadio
+                            initialState={true}
+                            title='Woods'
+                            list={price}
+                            handleFilters={(filters) => handleFilters(filters, 'price')}
                         />
                     </div>
                     <div className='right'>

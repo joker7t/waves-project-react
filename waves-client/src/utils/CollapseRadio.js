@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import faAngleUp from '@fortawesome/fontawesome-free-solid/faAngleUp';
 
-const CollapseCheckbox = ({ initialState, title, list, handleFilters }) => {
+const CollapseRadio = ({ initialState, title, list, handleFilters }) => {
+
     const [open, setOpen] = useState(false);
-    const [checked, setChecked] = useState([]);
+    const [checked, setChecked] = useState('0');
 
     useEffect(() => {
         initialState && setOpen(initialState);
@@ -27,34 +29,20 @@ const CollapseCheckbox = ({ initialState, title, list, handleFilters }) => {
     const handleAngle = () =>
         open ? <FontAwesomeIcon icon={faAngleUp} className='icon' /> : <FontAwesomeIcon icon={faAngleDown} className='icon' />;
 
-    const handleToggle = (id) => {
-        const currentIndex = checked.indexOf(id);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(id);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-        setChecked(newChecked);
-        handleFilters(newChecked);
-    }
-
     const renderList = () => list ?
         list.map((item, i) =>
-            <ListItem key={i}>
-                <ListItemText
-                    primary={item.name}
-                />
-                <ListItemSecondaryAction>
-                    <Checkbox
-                        color='primary'
-                        onChange={() => handleToggle(item._id)}
-                        checked={checked.indexOf(item._id) !== -1}
-                    />
-                </ListItemSecondaryAction>
-            </ListItem>
+            <FormControlLabel
+                key={i}
+                value={`${item._id}`}
+                control={<Radio />}
+                label={item.name}
+            />
         ) : null
+
+    const handleChange = (e) => {
+        setChecked(e.target.value);
+        handleFilters(e.target.value);
+    }
 
     return (
         <div>
@@ -68,7 +56,14 @@ const CollapseCheckbox = ({ initialState, title, list, handleFilters }) => {
                 </ListItem>
                 <Collapse in={open} timeout='auto' unmountOnExit>
                     <List component='div' disablePadding>
-                        {renderList()}
+                        <RadioGroup
+                            aria-label='prices'
+                            name='prices'
+                            value={checked}
+                            onChange={handleChange}
+                        >
+                            {renderList()}
+                        </RadioGroup>
                     </List>
                 </Collapse>
             </List>
@@ -76,4 +71,4 @@ const CollapseCheckbox = ({ initialState, title, list, handleFilters }) => {
     );
 }
 
-export default CollapseCheckbox;
+export default CollapseRadio;
