@@ -197,4 +197,55 @@ router.get('/articles/', [auth, admin], async (req, res) => {
 
 });
 
+// @route   GET api/products/shop
+// @param   sortBy
+// @param   order
+// @param   limit
+// @param   skip
+// @param   filters
+// @desc    get all products with limit and skip and sort by create time
+// @access  PRIVATE
+router.post('/shop/', [auth, admin], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        let sortBy = req.body.sortBy ? req.body.sortBy : '_id';
+        let order = req.body.order ? req.body.order : 'asc';
+        let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+        let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+        let findArgs = {};
+
+        for (key in req.body.filters) {
+            if (req.body.filters[key].length > 0) {
+                if (key === 'price') {
+                    findArgs[key] = {
+                        $gte: req.body.filters[key][0],
+                        $lte: req.body.filters[key][1]
+                    };
+                } else {
+                    findArgs[key] = req.body.filters[key];
+                }
+            }
+        }
+
+        let products = await Product.find(findArgs)
+            .populate('brand').populate('wood')
+            .sort([[sortBy, order]])
+            .limit(limit)
+            .skip(skip)
+            ;
+
+        res.json({
+            success: true,
+            productdata: products
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
+
+});
+
 module.exports = router;
