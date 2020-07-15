@@ -55,7 +55,7 @@ const Header = ({ setUserDetails, userDetails, user, login }) => {
             <div className='container' style={{ height: '100%' }}>
                 <div className='left'>
                     <div className='logo' style={{ cursor: 'pointer' }}>
-                        <Link to='/'>
+                        <Link to='/' style={{ marginLeft: '0px' }}>
                             Waves
                         </Link>
                     </div>

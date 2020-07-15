@@ -6,6 +6,7 @@ import axios from 'axios';
 import CollapseCheckbox from '../../utils/CollapseCheckbox';
 import { frets, price } from '../../utils/Category';
 import CollapseRadio from '../../utils/CollapseRadio';
+import LoadmoreCards from './LoadmoreCards';
 
 const Shop = ({ getBrands, getWoods, getShop, product }) => {
 
@@ -58,11 +59,6 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
             skip: 0,
             filters: newFilters
         });
-        console.log({
-            limit: shopData.limit,
-            skip: 0,
-            filters: newFilters
-        })
         getShop(shopProductRes.data.productdata);
     }
 
@@ -98,7 +94,17 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
                         />
                     </div>
                     <div className='right'>
-                        right
+                        <div className='shop_options'>
+                            grid
+                        </div>
+                        <div>
+                            <LoadmoreCards
+                                grid={shopData.grid}
+                                limit={shopData.limit}
+                                products={product.products}
+                                loadMore={() => console.log('load')}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
