@@ -1,7 +1,7 @@
 import React from 'react';
 import CardBlockShop from './CardBlockShop';
 
-const LoadmoreCards = ({ grid, limit, products, loadMore }) => {
+const LoadmoreCards = ({ grid, limit, size, products, loadMore }) => {
     return (
         <div>
             <div>
@@ -10,6 +10,16 @@ const LoadmoreCards = ({ grid, limit, products, loadMore }) => {
                     list={products}
                 />
             </div>
+
+            {
+                size < limit ? null :
+                    <div className='load_more_container'>
+                        <span onClick={loadMore}>
+                            Load more
+                        </span>
+                    </div>
+            }
+
         </div>
     );
 }

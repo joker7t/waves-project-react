@@ -5,14 +5,11 @@ const CardBlockShop = ({ grid, list }) => {
 
     const renderCards = () => list && list.map((item, i) =>
         <Card
+            key={i}
             card={item}
             grid={grid}
         />
     )
-
-
-
-    console.log(list)
 
     return (
         <div className='card_block_shop'>

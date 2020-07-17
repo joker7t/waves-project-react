@@ -7,12 +7,16 @@ import CollapseCheckbox from '../../utils/CollapseCheckbox';
 import { frets, price } from '../../utils/Category';
 import CollapseRadio from '../../utils/CollapseRadio';
 import LoadmoreCards from './LoadmoreCards';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import faBars from '@fortawesome/fontawesome-free-solid/faBars';
+import faTh from '@fortawesome/fontawesome-free-solid/faTh';
 
 const Shop = ({ getBrands, getWoods, getShop, product }) => {
 
     const [shopData, setShopData] = useState({
         grid: '',
-        limit: 6,
+        size: 0,
+        limit: 4,
         skip: 0,
         filters: {
             brand: [],
@@ -34,6 +38,7 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
                     skip: shopData.skip,
                     filters: shopData.filters
                 });
+                setShopData({ ...shopData, size: shopProductRes.data.productdata.length });
                 getShop(shopProductRes.data.productdata);
             } catch (error) {
                 console.log(error);
@@ -60,6 +65,30 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
             filters: newFilters
         });
         getShop(shopProductRes.data.productdata);
+        setShopData({ ...shopData, size: shopProductRes.data.productdata.length });
+    }
+
+    const loadMoreCards = async () => {
+        try {
+            const skip = shopData.skip + shopData.limit;
+            setShopData({ ...shopData, skip: skip });
+            const shopProductRes = await axios.post('/api/products/shop', {
+                limit: shopData.limit,
+                skip: skip,
+                filters: shopData.filters
+            });
+            getShop([...product.products, ...shopProductRes.data.productdata]);
+            setShopData({ ...shopData, size: shopProductRes.data.productdata.length });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleGrid = () => {
+        setShopData({
+            ...shopData,
+            grid: shopData.grid ? '' : 'grid_bars'
+        });
     }
 
     return (
@@ -95,14 +124,28 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
                     </div>
                     <div className='right'>
                         <div className='shop_options'>
-                            grid
+                            <div className='grid_bars clear'>
+                                <div
+                                    className={`grid_btn ${shopData.grid ? '' : 'active'}`}
+                                    onClick={handleGrid}
+                                >
+                                    <FontAwesomeIcon icon={faTh} />
+                                </div>
+                                <div
+                                    className={`grid_btn ${!shopData.grid ? '' : 'active'}`}
+                                    onClick={handleGrid}
+                                >
+                                    <FontAwesomeIcon icon={faBars} />
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <LoadmoreCards
                                 grid={shopData.grid}
+                                size={shopData.size}
                                 limit={shopData.limit}
                                 products={product.products}
-                                loadMore={() => console.log('load')}
+                                loadMore={loadMoreCards}
                             />
                         </div>
                     </div>
