@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary');
+const formidable = require('express-formidable');
 require('dotenv').config();
 
 const User = require('../models/User');
@@ -133,7 +134,7 @@ router.post('/login', [
 // @route   POST api/users/uploadimage
 // @desc    upload images
 // @access  PRIVATE
-router.post('/uploadimage', [auth, admin], async (req, res) => {
+router.post('/uploadimage', [auth, admin, formidable()], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() });
