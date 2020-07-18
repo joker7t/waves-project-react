@@ -15,6 +15,7 @@ import Footer from './components/layouts/footer/Footer';
 import UserDashboard from './components/auth/user/UserDashboard';
 import { LOGIN } from './actions/type';
 import Shop from './components/shop/Shop';
+import AddProduct from './components/products/AddProduct';
 
 function App() {
 
@@ -55,6 +56,8 @@ function App() {
             <PrivateRoute needAdminRole={false} exact path='/' component={Home} />
             <PrivateRoute needAdminRole={false} exact path='/shop' component={Shop} />
             <PrivateRoute needAdminRole={false} exact path='/user/dashboard' component={UserDashboard} />
+
+            <PrivateRoute needAdminRole={true} exact path='/admin/add_product' component={AddProduct} />
 
             <Redirect to='/' />
           </Switch>
