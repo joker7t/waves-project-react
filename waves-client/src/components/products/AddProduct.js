@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import UserLayout from '../auth/user/UserLayout';
 import { connect } from 'react-redux';
-import { getBrands, getWoods, getShop } from '../../actions/productAction';
+import { getBrands, getWoods, addProduct } from '../../actions/productAction';
 import Button from '../../utils/Button';
 import axios from 'axios';
 
-const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
+const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
 
     const [submitedProduct, setSubmitedProduct] = useState({
         name: "",
@@ -20,6 +20,8 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
         publish: false,
         images: []
     });
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
 
     useEffect(() => {
         const loadData = async () => {
@@ -43,12 +45,41 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
         //eslint-disable-next-line
     }, []);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(submitedProduct);
+
+        setErrorMessage('');
+        try {
+            await axios.post('/api/products/article', submitedProduct);
+            addProduct(submitedProduct);
+
+            setSuccessMessage('Add product successfully');
+            setSubmitedProduct({
+                name: "",
+                description: "",
+                price: 0,
+                brand: "",
+                shipping: false,
+                available: false,
+                wood: "",
+                frets: 0,
+                sold: 0,
+                publish: false,
+                images: []
+            });
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+        } catch (error) {
+            setErrorMessage('Add product failed');
+        }
+
     }
 
     const handleChange = (e) => {
         setSubmitedProduct({ ...submitedProduct, [e.target.name]: e.target.value });
+        setErrorMessage('');
     }
 
     const buildBrandOptions = () =>
@@ -94,7 +125,7 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         required
                         placeholder='Enter product price'
                     />
-                    <label for="brand">Select brand</label>
+                    <label className='label_inputs' htmlFor="brand">Select brand</label>
                     <select
                         className='input'
                         name="brand"
@@ -102,9 +133,10 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         onChange={handleChange}
                         required
                     >
+                        <option value=''>Select</option>
                         {buildBrandOptions()}
                     </select>
-                    <label for="shipping">Is shipping?</label>
+                    <label className='label_inputs' htmlFor="shipping">Is shipping?</label>
                     <select
                         className='input'
                         name="shipping"
@@ -115,7 +147,7 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
                     </select>
-                    <label for="available">Available in stock?</label>
+                    <label className='label_inputs' htmlFor="available">Available in stock?</label>
                     <select
                         className='input'
                         name="available"
@@ -126,7 +158,7 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
                     </select>
-                    <label for="wood">Select wood</label>
+                    <label className='label_inputs' htmlFor="wood">Select wood</label>
                     <select
                         className='input'
                         name="wood"
@@ -134,9 +166,10 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         onChange={handleChange}
                         required
                     >
+                        <option value=''>Select</option>
                         {buildWoodOptions()}
                     </select>
-                    <label for="frets">Select frets</label>
+                    <label className='label_inputs' htmlFor="frets">Select frets</label>
                     <select
                         className='input'
                         name="frets"
@@ -149,7 +182,7 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         <option value={22}>22</option>
                         <option value={23}>23</option>
                     </select>
-                    <label for="frets">Publish</label>
+                    <label className='label_inputs' htmlFor="frets">Publish</label>
                     <select
                         className='input'
                         name="publish"
@@ -160,7 +193,8 @@ const AddProduct = ({ getBrands, getWoods, getShop, product }) => {
                         <option value={true}>Public</option>
                         <option value={false}>Hidden</option>
                     </select>
-
+                    {errorMessage && <div className='error_label'>{errorMessage}</div>}
+                    {successMessage && <div className='form_success'>{successMessage}</div>}
                     <Button
                         type='submit'
                         title='ADD PRODUCT'
@@ -179,4 +213,4 @@ const mapStateToProps = (state) => ({
     product: state.product
 });
 
-export default connect(mapStateToProps, { getBrands, getWoods, getShop })(AddProduct);
+export default connect(mapStateToProps, { getBrands, getWoods, addProduct })(AddProduct);
