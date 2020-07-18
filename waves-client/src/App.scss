@@ -1028,11 +1028,12 @@ footer .business_nfo .nfo {
 .dropzone {
     border: 1px solid #e5e5e5;
     margin-bottom: 40px;
+    width: 100%;
 }
 
 .dropzone_box {
-    float: left;
     width: 25%;
+    min-width: 200px;
     height: 160px;
     padding: 10px;
     box-sizing: border-box;

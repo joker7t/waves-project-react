@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getBrands, getWoods, addProduct } from '../../actions/productAction';
 import Button from '../../utils/Button';
 import axios from 'axios';
+import FileUpload from '../../utils/FileUpload';
 
 const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
 
@@ -92,6 +93,10 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
             <option key={i} value={wood._id}>{wood.name}</option>
         )
 
+    const imageUploadHandler = (file) => {
+        console.log(file)
+    }
+
     const { name, description, price, brand, wood, shipping, available, frets, publish } = submitedProduct;
 
     return (
@@ -99,6 +104,7 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
             <div>
                 <h1>Add Product</h1>
                 <form onSubmit={onSubmit}>
+                    <FileUpload imageUploadHandler={imageUploadHandler} />
                     <input
                         className='input'
                         type='text'
