@@ -3,10 +3,18 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary');
 require('dotenv').config();
 
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // @route   GET api/users/auth
 // @desc    get logged in user
@@ -120,6 +128,27 @@ router.post('/login', [
         console.log(error.message);
         res.status(500).send('Server error');
     }
+});
+
+// @route   POST api/users/uploadimage
+// @desc    upload images
+// @access  PRIVATE
+router.post('/uploadimage', [auth, admin], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    //client must send the same dir with this
+    cloudinary.uploader.upload(req.files.file.path, (result) => {
+        console.log(result);
+        res.status(200).send({
+            public_id: result.public_id,
+            url: result.url
+        });
+    }, {
+        public_id: `${Date.now()}`,
+        resource_type: 'auto'
+    });
 });
 
 module.exports = router;

@@ -2,6 +2,8 @@ const express = require('express');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const formidable = require('express-formidable');
+require('dotenv').config();
 
 const app = express();
 
@@ -12,6 +14,7 @@ connectDB();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(formidable());
 
 // Define api
 app.use('/api/users', require('./routes/users'));
