@@ -93,8 +93,10 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
             <option key={i} value={wood._id}>{wood.name}</option>
         )
 
-    const imageUploadHandler = (file) => {
-        console.log(file)
+    const imageUploadHandler = (files) => {
+        const newSubmitedProduct = { ...submitedProduct };
+        newSubmitedProduct['images'] = files;
+        setSubmitedProduct(newSubmitedProduct);
     }
 
     const { name, description, price, brand, wood, shipping, available, frets, publish } = submitedProduct;

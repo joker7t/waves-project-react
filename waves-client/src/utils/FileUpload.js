@@ -34,14 +34,38 @@ const FileUpload = ({ imageUploadHandler }) => {
         setUploading(false);
     }
 
-    const showUploadImages = () => {
+    const deleteImage = async (imageId) => {
+        try {
+            await axios.delete(`/api/users/removeimage?public_id=${imageId}`);
+            const newUploadFiles = uploadFiles.filter(file => file.public_id !== imageId);
+            setUploadFiles(newUploadFiles);
+            imageUploadHandler(newUploadFiles);
+        } catch (error) {
+            console.log(error);
+        }
 
     }
+
+    const showUploadImages = () =>
+        uploadFiles.map(file =>
+            <div className='dropzone_box'
+                key={file.public_id}
+                onClick={() => deleteImage(file.public_id)}
+            >
+                <div
+                    className='wrap'
+                    style={{ background: `url(${file.url}) no-repeat` }}
+                >
+                </div>
+
+            </div>
+        )
+
 
     return (
         <div>
             <section>
-                <div className='dropzone'>
+                <div className='dropzone clear'>
                     <Dropzone
                         onDrop={onDrop}
                         multiple={false}
@@ -75,6 +99,16 @@ const FileUpload = ({ imageUploadHandler }) => {
                             </div>
                             : null
                     }
+                    <span
+                        style={{
+                            display: 'block',
+                            clear: 'both',
+                            paddingLeft: '10px',
+                            fontStyle: 'italic',
+                        }}
+                    >
+                        **Click to image to remove uploaded one
+                    </span>
                 </div>
             </section>
         </div>
