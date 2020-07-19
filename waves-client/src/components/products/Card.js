@@ -11,6 +11,10 @@ const Card = ({ card, grid }) => {
         return images.length > 0 ? images[0].url : DefaultImage;
     }
 
+    const addToCartHandler = () => {
+        console.log('add to cart');
+    }
+
     return (
         <div className={`card_item_wrapper ${grid}`}>
             <div className='image'
@@ -43,7 +47,7 @@ const Card = ({ card, grid }) => {
                     <div className='button_wrapp'>
                         <div
                             className='bag_link'
-                            onClick={() => console.log('haha')}
+                            onClick={addToCartHandler}
                         >
                             <FontAwesomeIcon
                                 icon={faShoppingBag}
