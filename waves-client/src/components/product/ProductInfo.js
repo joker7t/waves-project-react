@@ -47,7 +47,7 @@ const ProductInfo = ({ product, addToCart }) => {
                 <div className='cart'>
                     <div
                         className='add_to_cart_link'
-                        action={addToCart}
+                        onClick={addToCart}
                     >
                         <FontAwesomeIcon icon={faShoppingBag} />Add to cart
                     </div>

@@ -5,6 +5,7 @@ import { setSelectedProduct } from '../../actions/productAction';
 import PageTop from '../../utils/PageTop';
 import Loader from '../../utils/Loader';
 import ProductInfo from './ProductInfo';
+import ProductImage from './ProductImage';
 
 const Product = ({ history, match, setSelectedProduct, selectedProduct }) => {
 
@@ -39,7 +40,9 @@ const Product = ({ history, match, setSelectedProduct, selectedProduct }) => {
                     selectedProduct ?
                         <div className='product_detail_wrapper'>
                             <div className='left'>
-                                images
+                                <ProductImage
+                                    images={selectedProduct.images}
+                                />
                             </div>
                             <div className='right'>
                                 <ProductInfo
