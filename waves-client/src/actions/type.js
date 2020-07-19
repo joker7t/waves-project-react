@@ -9,3 +9,5 @@ export const GET_BRANDS = "GET_BRANDS";
 export const GET_WOODS = "GET_WOODS";
 export const GET_SHOP = "GET_SHOP";
 export const ADD_PRODUCT = "ADD_PRODUCT";
+export const ADD_BRAND = "ADD_BRAND";
+export const ADD_WOOD = "ADD_WOOD";

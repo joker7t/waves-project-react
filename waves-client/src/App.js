@@ -16,6 +16,7 @@ import UserDashboard from './components/auth/user/UserDashboard';
 import { LOGIN } from './actions/type';
 import Shop from './components/shop/Shop';
 import AddProduct from './components/products/AddProduct';
+import ManageCategories from './components/auth/user/ManageCategories';
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
             <PrivateRoute needAdminRole={false} exact path='/user/dashboard' component={UserDashboard} />
 
             <PrivateRoute needAdminRole={true} exact path='/admin/add_product' component={AddProduct} />
+            <PrivateRoute needAdminRole={true} exact path='/admin/manage_categories' component={ManageCategories} />
 
             <Redirect to='/' />
           </Switch>

@@ -133,6 +133,7 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
                         required
                         placeholder='Enter product price'
                     />
+                    <div className='form_devider' />
                     <label className='label_inputs' htmlFor="brand">Select brand</label>
                     <select
                         className='input'
@@ -166,6 +167,7 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
                     </select>
+                    <div className='form_devider' />
                     <label className='label_inputs' htmlFor="wood">Select wood</label>
                     <select
                         className='input'
