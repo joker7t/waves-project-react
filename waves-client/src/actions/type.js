@@ -11,3 +11,4 @@ export const GET_SHOP = "GET_SHOP";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const ADD_BRAND = "ADD_BRAND";
 export const ADD_WOOD = "ADD_WOOD";
+export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";

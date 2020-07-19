@@ -1,11 +1,22 @@
-import { GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCTS_BY_SELL, GET_BRANDS, GET_WOODS, GET_SHOP, ADD_PRODUCT, ADD_BRAND, ADD_WOOD } from "../actions/type";
+import {
+    GET_PRODUCTS_BY_ARRIVAL,
+    GET_PRODUCTS_BY_SELL,
+    GET_BRANDS,
+    GET_WOODS,
+    GET_SHOP,
+    ADD_PRODUCT,
+    ADD_BRAND,
+    ADD_WOOD,
+    SET_SELECTED_PRODUCT
+} from "../actions/type";
 
 const initialState = {
     products: [],
     bySell: [],
     byArrival: [],
     brands: [],
-    woods: []
+    woods: [],
+    selectedProduct: null
 };
 
 export default function (state = initialState, action) {
@@ -49,6 +60,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 woods: [...state.woods, action.payload]
+            };
+        case SET_SELECTED_PRODUCT:
+            return {
+                ...state,
+                selectedProduct: action.payload
             };
 
         default:

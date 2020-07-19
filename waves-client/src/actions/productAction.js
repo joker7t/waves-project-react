@@ -1,4 +1,14 @@
-import { GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCTS_BY_SELL, GET_WOODS, GET_BRANDS, GET_SHOP, ADD_PRODUCT, ADD_BRAND, ADD_WOOD } from "./type";
+import {
+    GET_PRODUCTS_BY_ARRIVAL,
+    GET_PRODUCTS_BY_SELL,
+    GET_WOODS,
+    GET_BRANDS,
+    GET_SHOP,
+    ADD_PRODUCT,
+    ADD_BRAND,
+    ADD_WOOD,
+    SET_SELECTED_PRODUCT
+} from "./type";
 
 export const getProductBySell = products => dispatch => {
     dispatch({
@@ -53,5 +63,12 @@ export const addWood = wood => dispatch => {
     dispatch({
         type: ADD_WOOD,
         payload: wood
+    });
+};
+
+export const setSelectedProduct = selectedProduct => dispatch => {
+    dispatch({
+        type: SET_SELECTED_PRODUCT,
+        payload: selectedProduct
     });
 };
