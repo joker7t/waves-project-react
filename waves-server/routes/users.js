@@ -141,7 +141,6 @@ router.post('/uploadimage', [auth, admin, formidable()], async (req, res) => {
     }
     //client must send the same dir with this
     cloudinary.uploader.upload(req.files.file.path, (result) => {
-        console.log(result);
         res.status(200).send({
             public_id: result.public_id,
             url: result.url
@@ -149,6 +148,21 @@ router.post('/uploadimage', [auth, admin, formidable()], async (req, res) => {
     }, {
         public_id: `${Date.now()}`,
         resource_type: 'auto'
+    });
+});
+
+// @route   DELETE api/users/uploadimage
+// @desc    remove image
+// @access  PRIVATE
+router.delete('/removeimage', [auth, admin], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    const imageId = req.query.public_id;
+    cloudinary.uploader.destroy(imageId, (error, result) => {
+        if (error) return res.json(error);
+        res.status(200).send('ok');
     });
 });
 
