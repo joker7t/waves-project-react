@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-// import Lightbox from 'react-image-lightbox';
+import React, { useState } from 'react';
 import ImageNotAvailable from '../../images/image_not_availble.png';
+import MyLightbox from './MyLightbox';
 
 const ProductImage = ({ images }) => {
     const [imageIndex, setImageIndex] = useState(0);
-    const [isOpenLightbox, SetIsOpenLightbox] = useState(false);
+    const [isOpenLightbox, setIsOpenLightbox] = useState(false);
 
     const renderImage = () => {
         if (images.length >= 0) {
@@ -15,7 +15,16 @@ const ProductImage = ({ images }) => {
     }
 
     const handleLightboxImage = (index = 0) => {
-        console.log(index)
+        setImageIndex(index);
+        setIsOpenLightbox(true);
+    }
+
+    const handleCloseLightbox = () => {
+        setIsOpenLightbox(false);
+    }
+
+    const changeImage = (newIndex) => {
+        setImageIndex(newIndex);
     }
 
     const showThums = () =>
@@ -47,6 +56,18 @@ const ProductImage = ({ images }) => {
             <div className='main_thumbs clear'>
                 {showThums()}
             </div>
+            {
+                isOpenLightbox ?
+                    <MyLightbox
+                        closeLightbox={handleCloseLightbox}
+                        imageIndex={imageIndex}
+                        isOpenLightbox={isOpenLightbox}
+                        images={images}
+                        changeImage={changeImage}
+                    />
+                    :
+                    null
+            }
         </div>
     );
 }
