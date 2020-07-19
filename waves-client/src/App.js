@@ -17,6 +17,7 @@ import { LOGIN } from './actions/type';
 import Shop from './components/shop/Shop';
 import AddProduct from './components/products/AddProduct';
 import ManageCategories from './components/auth/user/ManageCategories';
+import Product from './components/product/Product';
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
             <PublicRoute restricted={true} exact path='/login' component={Login} />
             <PublicRoute restricted={true} exact path='/register' component={Register} />
 
+            <PrivateRoute needAdminRole={false} exact path='/product_detail/:id' component={Product} />
             <PrivateRoute needAdminRole={false} exact path='/' component={Home} />
             <PrivateRoute needAdminRole={false} exact path='/shop' component={Shop} />
             <PrivateRoute needAdminRole={false} exact path='/user/dashboard' component={UserDashboard} />
