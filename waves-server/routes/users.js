@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary');
 const formidable = require('express-formidable');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const User = require('../models/User');
@@ -164,6 +165,44 @@ router.delete('/removeimage', [auth, admin], async (req, res) => {
         if (error) return res.json(error);
         res.status(200).send('ok');
     });
+});
+
+// @route   POST api/users/add-to-cart
+// @desc    get logged in user
+// @access  PRIVATE
+router.post('/add-to-cart', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        console.log(req.query.id);
+        user.carts.forEach(cart => {
+            if (cart.id === req.query.id) {
+
+            } else {
+                User.findOneAndUpdate(
+                    { _id: req.user.id },
+                    {
+                        $push: {
+                            carts: {
+                                id: mongoose.Types.ObjectId(req.query.productId),
+                                quantity: 1,
+                                date: Date.now()
+                            }
+                        }
+                    },
+                    //this code to return back object
+                    { new: true },
+                    (err, doc) => {
+                        if (err) return res.json({ success: false, err });
+                        res.status(200).json(doc.cart);
+                    }
+                );
+            }
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
 });
 
 module.exports = router;
