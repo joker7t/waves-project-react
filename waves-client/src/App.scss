@@ -735,6 +735,7 @@ footer .business_nfo .nfo {
 .product_detail_wrapper .right{
     flex-grow: 1; 
     min-height: 800px;
+    padding-left: 10px;
 }
 
 
@@ -774,6 +775,13 @@ footer .business_nfo .nfo {
 .product_detail_wrapper .product_actions .cart {
     width: 149px;
 }
+
+@media (max-width: 768px) {
+    .product_detail_wrapper {
+        display: block;
+    }
+}
+
 .user_cart_sum {
     font-size: 20px;
     text-transform: uppercase;
