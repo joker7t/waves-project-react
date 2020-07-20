@@ -18,8 +18,8 @@ const Card = ({ card, grid, addToCart, user }) => {
         const { _id } = card;
 
         try {
-            await axios.post(`/api/users/add-to-cart?id=${user.id}&productId=${_id}`);
-            addToCart(_id);
+            const res = await axios.post(`/api/users/add-to-cart?id=${user.id}&productId=${_id}`);
+            addToCart(res.data);
         } catch (error) {
             console.log(error);
         }

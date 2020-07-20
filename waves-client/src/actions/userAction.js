@@ -21,9 +21,9 @@ export const setUserDetails = userDetails => dispatch => {
     });
 };
 
-export const addToCart = cart => dispatch => {
+export const addToCart = newCarts => dispatch => {
     dispatch({
         type: ADD_TO_CART_USER,
-        payload: cart
+        payload: newCarts
     });
 };

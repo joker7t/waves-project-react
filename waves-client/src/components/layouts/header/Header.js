@@ -4,6 +4,7 @@ import setJwtToken from '../../../utils/setJwtToken';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Card } from '@material-ui/core';
 
 const Header = ({ setUserDetails, userDetails, user, login }) => {
 
@@ -23,11 +24,23 @@ const Header = ({ setUserDetails, userDetails, user, login }) => {
         //eslint-disable-next-line
     }, [user]);
 
+    const showUserCart = () => {
+        let count = 0;
+        userDetails && userDetails.carts.forEach(cart => {
+            if (cart.quantity) {
+                count = count + cart.quantity;
+            } else {
+                count++;
+            }
+        });
+        return count;
+    }
+
     const buildPrivateLinks = () => {
         if (user) {
             return <React.Fragment>
                 <Link to='/user/cart' className='cart_link'>
-                    My Cart <span>{userDetails ? userDetails.carts.length : 0}</span>
+                    My Cart <span>{showUserCart()}</span>
                 </Link>
                 <Link to='/user/dashboard'>
                     My Account

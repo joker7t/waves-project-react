@@ -27,7 +27,7 @@ export default function (state = initialState, action) {
                 ...state,
                 userDetails: {
                     ...state.userDetails,
-                    carts: [...state.userDetails.carts, action.payload]
+                    carts: action.payload
                 }
             };
 
