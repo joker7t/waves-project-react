@@ -173,31 +173,36 @@ router.delete('/removeimage', [auth, admin], async (req, res) => {
 router.post('/add-to-cart', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
-        console.log(req.query.id);
+        let duplicated = false;
+
         user.carts.forEach(cart => {
             if (cart.id === req.query.id) {
-
-            } else {
-                User.findOneAndUpdate(
-                    { _id: req.user.id },
-                    {
-                        $push: {
-                            carts: {
-                                id: mongoose.Types.ObjectId(req.query.productId),
-                                quantity: 1,
-                                date: Date.now()
-                            }
-                        }
-                    },
-                    //this code to return back object
-                    { new: true },
-                    (err, doc) => {
-                        if (err) return res.json({ success: false, err });
-                        res.status(200).json(doc.cart);
-                    }
-                );
+                duplicated = true
             }
         });
+        if (duplicated) {
+
+        } else {
+            User.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    $push: {
+                        carts: {
+                            id: mongoose.Types.ObjectId(req.query.productId),
+                            quantity: 1,
+                            date: Date.now()
+                        }
+                    }
+                },
+                //this code to return back object
+                { new: true },
+                (err, doc) => {
+                    if (err) return res.json({ success: false, err });
+                    console.log(req.query.id);
+                    res.status(200).json(doc.cart);
+                }
+            );
+        }
 
     } catch (error) {
         console.log(error.message);
