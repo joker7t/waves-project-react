@@ -176,12 +176,20 @@ router.post('/add-to-cart', auth, async (req, res) => {
         let duplicated = false;
 
         user.carts.forEach(cart => {
-            if (cart.id === req.query.id) {
-                duplicated = true
+            if (cart.id.toString() === req.query.productId) {
+                duplicated = true;
             }
         });
         if (duplicated) {
-
+            User.findOneAndUpdate(
+                { _id: req.user.id, 'carts.id': mongoose.Types.ObjectId(req.query.productId) },
+                { $inc: { 'carts.$.quantity': 1 } },
+                { new: true },
+                (err, doc) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json(doc.carts);
+                }
+            );
         } else {
             User.findOneAndUpdate(
                 { _id: req.user.id },
@@ -198,8 +206,7 @@ router.post('/add-to-cart', auth, async (req, res) => {
                 { new: true },
                 (err, doc) => {
                     if (err) return res.json({ success: false, err });
-                    console.log(req.query.id);
-                    res.status(200).json(doc.cart);
+                    res.status(200).json(doc.carts);
                 }
             );
         }
