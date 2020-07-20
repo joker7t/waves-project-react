@@ -3,16 +3,26 @@ import DefaultImage from '../../images/image_not_availble.png';
 import Button from '../../utils/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faShoppingBag from '@fortawesome/fontawesome-free-solid/faShoppingBag';
+import { connect } from 'react-redux';
+import { addToCart } from '../../actions/userAction';
+import axios from 'axios';
 
-const Card = ({ card, grid }) => {
+const Card = ({ card, grid, addToCart, user }) => {
 
     const renderCardImage = () => {
         const { images } = card;
         return images.length > 0 ? images[0].url : DefaultImage;
     }
 
-    const addToCartHandler = () => {
-        console.log('add to cart');
+    const addToCartHandler = async () => {
+        const { _id } = card;
+
+        try {
+            await axios.post(`/api/users/add-to-cart?id=${user.id}&productId=${_id}`);
+            addToCart(_id);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -61,4 +71,8 @@ const Card = ({ card, grid }) => {
     );
 }
 
-export default Card;
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+});
+
+export default connect(mapStateToProps, { addToCart })(Card);

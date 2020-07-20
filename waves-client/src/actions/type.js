@@ -1,6 +1,7 @@
 export const LOGIN = "LOGIN";
 export const REGISTER = "REGISTER";
 export const SET_USER_DETAILS = "SET_USER_DETAILS";
+export const ADD_TO_CART_USER = "ADD_TO_CART_USER";
 
 //products
 export const GET_PRODUCTS_BY_SELL = "GET_PRODUCTS_BY_SELL";

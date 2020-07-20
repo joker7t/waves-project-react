@@ -1,14 +1,8 @@
-import { LOGIN, REGISTER, SET_USER_DETAILS } from "../actions/type";
+import { LOGIN, REGISTER, SET_USER_DETAILS, ADD_TO_CART_USER } from "../actions/type";
 
 const initialState = {
     user: null,
-    userDetails: {
-        carts: [],
-        histories: [],
-        email: '',
-        name: '',
-        lastname: ''
-    }
+    userDetails: null
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +21,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 userDetails: action.payload
+            };
+        case ADD_TO_CART_USER:
+            return {
+                ...state,
+                userDetails: {
+                    ...state.userDetails,
+                    carts: [...state.userDetails.carts, action.payload]
+                }
             };
 
         default:

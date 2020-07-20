@@ -13,7 +13,7 @@ import setJwtToken from './utils/setJwtToken';
 import Header from './components/layouts/header/Header';
 import Footer from './components/layouts/footer/Footer';
 import UserDashboard from './components/auth/user/UserDashboard';
-import { LOGIN } from './actions/type';
+import { LOGIN, SET_USER_DETAILS } from './actions/type';
 import Shop from './components/shop/Shop';
 import AddProduct from './components/products/AddProduct';
 import ManageCategories from './components/auth/user/ManageCategories';
@@ -26,6 +26,10 @@ function App() {
     setJwtToken(false);
     store.dispatch({
       type: LOGIN,
+      payload: null
+    });
+    store.dispatch({
+      type: SET_USER_DETAILS,
       payload: null
     });
   }

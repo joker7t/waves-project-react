@@ -20,15 +20,14 @@ const Header = ({ setUserDetails, userDetails, user, login }) => {
         }
 
         loadUserDetails();
-
         //eslint-disable-next-line
-    }, []);
+    }, [user]);
 
     const buildPrivateLinks = () => {
         if (user) {
             return <React.Fragment>
                 <Link to='/user/cart' className='cart_link'>
-                    My Cart <span>{userDetails.carts.length}</span>
+                    My Cart <span>{userDetails ? userDetails.carts.length : 0}</span>
                 </Link>
                 <Link to='/user/dashboard'>
                     My Account
@@ -48,6 +47,7 @@ const Header = ({ setUserDetails, userDetails, user, login }) => {
         localStorage.removeItem("token");
         setJwtToken(false);
         login(null);
+        setUserDetails(null);
     }
 
     return (
