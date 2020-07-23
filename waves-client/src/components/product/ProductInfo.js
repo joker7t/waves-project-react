@@ -7,7 +7,7 @@ import faShoppingBag from '@fortawesome/fontawesome-free-solid/faShoppingBag';
 
 const ProductInfo = ({ product, addToCart }) => {
 
-    const { name, brand, description, shipping, available, price, frets, wood } = product;
+    const { _id, name, brand, description, shipping, available, price, frets, wood } = product;
     return (
         <div>
             <h1>{brand.name} {name}</h1>
@@ -47,7 +47,7 @@ const ProductInfo = ({ product, addToCart }) => {
                 <div className='cart'>
                     <div
                         className='add_to_cart_link'
-                        onClick={addToCart}
+                        onClick={() => addToCart(_id)}
                     >
                         <FontAwesomeIcon icon={faShoppingBag} />Add to cart
                     </div>

@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { setSelectedProduct } from '../../actions/productAction';
+import { addToCart } from '../../actions/userAction';
 import PageTop from '../../utils/PageTop';
 import Loader from '../../utils/Loader';
 import ProductInfo from './ProductInfo';
 import ProductImage from './ProductImage';
 
-const Product = ({ history, match, setSelectedProduct, selectedProduct }) => {
+const Product = ({ history, match, setSelectedProduct, selectedProduct, addToCart, user }) => {
 
     useEffect(() => {
         const loadData = async () => {
@@ -28,8 +29,13 @@ const Product = ({ history, match, setSelectedProduct, selectedProduct }) => {
         //eslint-disable-next-line
     }, []);
 
-    const addToCartHandler = () => {
-        console.log('add to cart');
+    const addToCartHandler = async (id) => {
+        try {
+            const res = await axios.post(`/api/users/add-to-cart?id=${user.id}&productId=${id}`);
+            addToCart(res.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -60,7 +66,8 @@ const Product = ({ history, match, setSelectedProduct, selectedProduct }) => {
 }
 
 const mapStateToProps = (state) => ({
-    selectedProduct: state.product.selectedProduct
+    selectedProduct: state.product.selectedProduct,
+    user: state.auth.user
 });
 
-export default connect(mapStateToProps, { setSelectedProduct })(Product);
+export default connect(mapStateToProps, { setSelectedProduct, addToCart })(Product);
