@@ -10,6 +10,7 @@ import LoadmoreCards from './LoadmoreCards';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import faTh from '@fortawesome/fontawesome-free-solid/faTh';
+import Loader from '../../utils/Loader';
 
 const Shop = ({ getBrands, getWoods, getShop, product }) => {
 
@@ -25,9 +26,11 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
             price: []
         }
     });
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadData = async () => {
+            setIsLoading(true);
             try {
                 const brandRes = await axios.get('/api/products/brands');
                 getBrands(brandRes.data.branddata);
@@ -43,6 +46,7 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
             } catch (error) {
                 console.log(error);
             }
+            setIsLoading(false);
         }
 
         loadData();
@@ -123,31 +127,38 @@ const Shop = ({ getBrands, getWoods, getShop, product }) => {
                         />
                     </div>
                     <div className='right'>
-                        <div className='shop_options'>
-                            <div className='grid_bars clear'>
-                                <div
-                                    className={`grid_btn ${shopData.grid ? '' : 'active'}`}
-                                    onClick={handleGrid}
-                                >
-                                    <FontAwesomeIcon icon={faTh} />
+                        {isLoading ?
+                            <Loader />
+                            :
+                            <div>
+                                <div className='shop_options'>
+                                    <div className='grid_bars clear'>
+                                        <div
+                                            className={`grid_btn ${shopData.grid ? '' : 'active'}`}
+                                            onClick={handleGrid}
+                                        >
+                                            <FontAwesomeIcon icon={faTh} />
+                                        </div>
+                                        <div
+                                            className={`grid_btn ${!shopData.grid ? '' : 'active'}`}
+                                            onClick={handleGrid}
+                                        >
+                                            <FontAwesomeIcon icon={faBars} />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div
-                                    className={`grid_btn ${!shopData.grid ? '' : 'active'}`}
-                                    onClick={handleGrid}
-                                >
-                                    <FontAwesomeIcon icon={faBars} />
+                                <div>
+                                    <LoadmoreCards
+                                        grid={shopData.grid}
+                                        size={shopData.size}
+                                        limit={shopData.limit}
+                                        products={product.products}
+                                        loadMore={loadMoreCards}
+                                    />
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <LoadmoreCards
-                                grid={shopData.grid}
-                                size={shopData.size}
-                                limit={shopData.limit}
-                                products={product.products}
-                                loadMore={loadMoreCards}
-                            />
-                        </div>
+                        }
+
                     </div>
                 </div>
             </div>

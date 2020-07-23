@@ -16,7 +16,7 @@ body {
     
 }
 .main_loader {
-    position: fixed;
+    // position: fixed;
     text-align: center;
     z-index: 1000;
     width: 100%;
@@ -545,12 +545,13 @@ footer .business_nfo .nfo {
     position: relative;
     overflow: hidden;
     display: inline-block;
+    margin-bottom: 30px;
 }
 
 @media (max-width: 768px) {
     .card_item_wrapper {
         width: 50%;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
 }
 
@@ -1011,6 +1012,49 @@ footer .business_nfo .nfo {
     padding: 5px 10px;
     color: #ffffff;
     margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+    .user_product_block{
+        display: block;
+
+        h4{
+            display: inline;
+        }
+
+        .item{
+            position: relative;
+            .text{
+                margin-left: 120px;
+                position: absolute;
+                top: 0;
+
+            }
+        }
+
+        .item.btn{
+            text-align: right;
+            width: 100%;
+
+            .cart_remove_btn{
+                margin-top: 20px;
+            }
+        }
+
+        
+    }
+}
+
+@media (max-width: 550px) {
+    .user_product_block{
+        font-size: 12px;
+
+        .item{
+            .text{
+                margin-left: 80px;
+            }
+        }
+    }
 }
 
 /*=============================

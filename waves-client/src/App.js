@@ -18,6 +18,7 @@ import Shop from './components/shop/Shop';
 import AddProduct from './components/products/AddProduct';
 import ManageCategories from './components/auth/user/ManageCategories';
 import Product from './components/product/Product';
+import UserCart from './components/auth/user/UserCart';
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
             <PrivateRoute needAdminRole={false} exact path='/' component={Home} />
             <PrivateRoute needAdminRole={false} exact path='/shop' component={Shop} />
             <PrivateRoute needAdminRole={false} exact path='/user/dashboard' component={UserDashboard} />
+            <PrivateRoute needAdminRole={false} exact path='/user/cart' component={UserCart} />
 
             <PrivateRoute needAdminRole={true} exact path='/admin/add_product' component={AddProduct} />
             <PrivateRoute needAdminRole={true} exact path='/admin/manage_categories' component={ManageCategories} />
