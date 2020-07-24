@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const User = require('../models/User');
+const Product = require('../models/Product');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
@@ -168,7 +169,7 @@ router.delete('/removeimage', [auth, admin], async (req, res) => {
 });
 
 // @route   POST api/users/add-to-cart
-// @desc    get logged in user
+// @desc    add cart to user
 // @access  PRIVATE
 router.post('/add-to-cart', auth, async (req, res) => {
     try {
@@ -210,6 +211,39 @@ router.post('/add-to-cart', auth, async (req, res) => {
                 }
             );
         }
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
+});
+
+// @route   DELETE api/users/remove-from-cart
+// @desc    remove cart in user
+// @access  PRIVATE
+router.delete('/remove-from-cart', auth, async (req, res) => {
+    try {
+        User.findOneAndUpdate(
+            { _id: req.user.id },
+            {
+                $pull: {
+                    carts: { id: mongoose.Types.ObjectId(req.query._id) }
+                }
+            },
+            //this code to return back object
+            { new: true },
+            (err, doc) => {
+                let carts = doc.carts;
+                let array = carts.map(item => {
+                    return mongoose.Types.ObjectId(item.id);
+                })
+                Product.find({ _id: { $in: array } })
+                    .populate('brand').populate('wood')
+                    .exec((err, cartDetail) => {
+                        return res.status(200).json({ carts, cartDetail });
+                    });
+            }
+        );
 
     } catch (error) {
         console.log(error.message);
