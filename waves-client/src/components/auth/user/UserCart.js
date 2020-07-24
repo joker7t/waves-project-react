@@ -7,8 +7,9 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import UserProductBlock from './UserProductBlock';
 import Loader from '../../../utils/Loader';
+import { removeFromCart } from '../../../actions/userAction';
 
-const UserCart = ({ user, userDetails }) => {
+const UserCart = ({ userDetails, removeFromCart }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [showTotal, setShowTotal] = useState(false);
@@ -17,35 +18,42 @@ const UserCart = ({ user, userDetails }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            setIsLoading(true);
-            const items = [];
+            if (cartItems.length === 0) {
+                setIsLoading(true);
+                const items = [];
 
-            userDetails && userDetails.carts && userDetails.carts.length > 0 && userDetails.carts.map(cart => {
-                items.push(cart.id);
-            })
+                userDetails && userDetails.carts && userDetails.carts.length > 0 && userDetails.carts.map(cart => {
+                    items.push(cart.id);
+                })
 
-            if (items.length > 0) {
-                try {
-                    const res = await axios.get(`/api/products/article?type=array&id=${items}`);
-                    const datas = res.data.productdata;
-                    const datasWithQuantity = [];
-                    datas.forEach(data => {
-                        userDetails.carts.forEach(cart => {
-                            if (cart.id === data._id) {
-                                datasWithQuantity.push({
-                                    ...data,
-                                    quantity: cart.quantity
-                                });
-                            }
+                if (items.length > 0) {
+                    try {
+                        const res = await axios.get(`/api/products/article?type=array&id=${items}`);
+                        const datas = res.data.productdata;
+                        const datasWithQuantity = [];
+                        datas.forEach(data => {
+                            userDetails.carts.forEach(cart => {
+                                if (cart.id === data._id) {
+                                    datasWithQuantity.push({
+                                        ...data,
+                                        quantity: cart.quantity
+                                    });
+                                }
+                            })
                         })
-                    })
-                    setCartItems(datasWithQuantity);
-                    calculateTotal(datasWithQuantity);
-                } catch (error) {
-                    console.log(error);
+                        setCartItems(datasWithQuantity);
+                        calculateTotal(datasWithQuantity);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                } else {
+                    setCartItems([]);
+                    calculateTotal([]);
                 }
+                setIsLoading(false);
+            } else {
+                calculateTotal(cartItems);
             }
-            setIsLoading(false);
         };
 
         loadData();
@@ -66,8 +74,29 @@ const UserCart = ({ user, userDetails }) => {
         }
     }
 
-    const removeItem = (id) => {
-        console.log(id)
+    const removeItem = async (id) => {
+        try {
+            setCartItems(cartItems.filter(item => item._id !== id));
+            removeFromCart(id);
+            const res = await axios.delete(`/api/users/remove-from-cart?_id=${id}`);
+
+            // const datasWithQuantity = [];
+            // res.data.carts.forEach(cart => {
+            //     res.data.cartDetails.forEach(cartDetail => {
+            //         if (cart.id === cartDetail._id) {
+            //             datasWithQuantity.push({
+            //                 ...cartDetail,
+            //                 quantity: cart.quantity
+            //             });
+            //         }
+            //     })
+            // })
+
+            // setCartItems(datasWithQuantity);
+            // calculateTotal(datasWithQuantity);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -116,7 +145,7 @@ const UserCart = ({ user, userDetails }) => {
                     </div>
                 </div>
             }
-        </UserLayout >
+        </UserLayout>
     );
 }
 
@@ -125,4 +154,4 @@ const mapStateToProps = (state) => ({
     userDetails: state.auth.userDetails
 });
 
-export default connect(mapStateToProps, null)(UserCart);
+export default connect(mapStateToProps, { removeFromCart })(UserCart);

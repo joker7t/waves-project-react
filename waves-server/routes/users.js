@@ -239,8 +239,8 @@ router.delete('/remove-from-cart', auth, async (req, res) => {
                 })
                 Product.find({ _id: { $in: array } })
                     .populate('brand').populate('wood')
-                    .exec((err, cartDetail) => {
-                        return res.status(200).json({ carts, cartDetail });
+                    .exec((err, cartDetails) => {
+                        return res.status(200).json({ carts, cartDetails });
                     });
             }
         );
