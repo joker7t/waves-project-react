@@ -11,6 +11,9 @@ import Loader from '../../../utils/Loader';
 const UserCart = ({ user, userDetails }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showTotal, setShowTotal] = useState(false);
+    const [total, setTotal] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -37,6 +40,7 @@ const UserCart = ({ user, userDetails }) => {
                         })
                     })
                     setCartItems(datasWithQuantity);
+                    calculateTotal(datasWithQuantity);
                 } catch (error) {
                     console.log(error);
                 }
@@ -48,6 +52,19 @@ const UserCart = ({ user, userDetails }) => {
 
         //eslint-disable-next-line
     }, [userDetails]);
+
+    const calculateTotal = (datas) => {
+        if (datas.length !== 0) {
+            let totalPrice = 0;
+            datas.forEach(data => {
+                totalPrice = totalPrice + (parseInt(data.price) * parseInt(data.quantity));
+            });
+            setTotal(totalPrice);
+            setShowTotal(true);
+        } else {
+            setShowTotal(false);
+        }
+    }
 
     const removeItem = (id) => {
         console.log(id)
@@ -66,10 +83,40 @@ const UserCart = ({ user, userDetails }) => {
                             type='cart'
                             removeItem={removeItem}
                         />
+                        {showTotal ?
+                            <div>
+                                <div className='user_cart_sum'>
+                                    <div>
+                                        Total amount: $ {total}
+                                    </div>
+                                </div>
+                                <div className='paypal_button_container'>
+                                    Paypal
+                                </div>
+                            </div>
+                            :
+                            showSuccess ?
+                                <div className='cart_success'>
+                                    <FontAwesomeIcon icon={faSmile} />
+                                    <div>
+                                        THANK YOU
+                                    </div>
+                                    <div>
+                                        YOUR ORDER IS NOW COMPLETE
+                                    </div>
+                                </div>
+                                :
+                                <div className='cart_no_items'>
+                                    <FontAwesomeIcon icon={faFrown} />
+                                    <div>
+                                        You have no items
+                                    </div>
+                                </div>
+                        }
                     </div>
                 </div>
             }
-        </UserLayout>
+        </UserLayout >
     );
 }
 
