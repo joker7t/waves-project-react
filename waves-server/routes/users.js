@@ -308,7 +308,7 @@ router.post('/success-buy', auth, async (req, res) => {
                             {
                                 $inc:
                                 {
-                                    'sold': item.quantity
+                                    'sold': parseInt(item.quantity)
                                 }
                             },
                             { new: false },
