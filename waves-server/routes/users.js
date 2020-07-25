@@ -255,6 +255,7 @@ router.delete('/remove-from-cart', auth, async (req, res) => {
 
 // @route   POST api/users/success-buy
 // @desc    add buy items to history
+// @params  cartDetails, paymentData
 // @access  PRIVATE
 router.post('/success-buy', auth, async (req, res) => {
     let histories = [];
@@ -299,7 +300,7 @@ router.post('/success-buy', auth, async (req, res) => {
                         quantity: product.quantity
                     });
                 });
-                async.eachOfSeries(
+                async.eachSeries(
                     products,
                     (item, callback) => {
                         Product.update(
