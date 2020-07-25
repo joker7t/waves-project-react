@@ -327,4 +327,26 @@ router.post('/success-buy', auth, async (req, res) => {
     )
 });
 
+// @route   POST api/users/update-profile
+// @desc    remove image
+// @params  name, lastname, email
+// @access  PRIVATE
+router.post('/update-profile', [auth, admin], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+            $set: req.body
+        },
+        { new: true },
+        (err, doc) => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).json(doc);
+        }
+    );
+});
+
 module.exports = router;
