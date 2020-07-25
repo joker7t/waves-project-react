@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from '../../../utils/Button';
+import { connect } from 'react-redux';
+import { setSiteInfo } from '../../../actions/siteAction';
 
-const SiteInfo = () => {
+const SiteInfo = ({ setSiteInfo, siteInfo }) => {
     const [submitedSiteInfo, setSubmitedSiteInfo] = useState({
+        //ID need to determine while updating
+        _id: '',
         address: '',
         phone: '',
         workingHour: '',
@@ -12,6 +15,12 @@ const SiteInfo = () => {
     });
     const [errorMessage, setErrorMessage] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+
+    useEffect(() => {
+        setSubmitedSiteInfo(siteInfo);
+
+        //eslint-disable-next-line
+    }, [siteInfo]);
 
     const handleChange = (e) => {
         setSubmitedSiteInfo({ ...submitedSiteInfo, [e.target.name]: e.target.value });
@@ -21,8 +30,8 @@ const SiteInfo = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            // const res = await axios.post('/api/users/update-profile', sumitedUser);
-            // setUserDetails(res.data);
+            const res = await axios.post('/api/sites/update-site-data', submitedSiteInfo);
+            setSiteInfo(res.data);
 
             setSuccessMessage('Update successfully');
             setErrorMessage(null);
@@ -90,4 +99,8 @@ const SiteInfo = () => {
     );
 }
 
-export default SiteInfo;
+const mapStateToProps = (state) => ({
+    siteInfo: state.site.data
+});
+
+export default connect(mapStateToProps, { setSiteInfo })(SiteInfo);

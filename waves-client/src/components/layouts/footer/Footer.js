@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faCompass from '@fortawesome/fontawesome-free-solid/faCompass';
 import faPhone from '@fortawesome/fontawesome-free-solid/faPhone';
 import faClock from '@fortawesome/fontawesome-free-solid/faClock';
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
+import { connect } from 'react-redux';
+import { setSiteInfo } from '../../../actions/siteAction';
+import axios from 'axios';
 
-const Footer = () => {
+const Footer = ({ setSiteInfo, siteInfo }) => {
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const res = await axios.get('/api/sites/site-data');
+                setSiteInfo(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loadData();
+
+        //eslint-disable-next-line
+    }, []);
+
     return (
         <footer className='bck_b_dark' style={{ paddingBottom: '20px' }}>
             <div className='container'>
@@ -23,7 +42,7 @@ const Footer = () => {
                                 />
                                 <div className='nfo'>
                                     <div>Address</div>
-                                    <div>Kramer 2345</div>
+                                    <div>{siteInfo.address}</div>
                                 </div>
                             </div>
 
@@ -33,8 +52,8 @@ const Footer = () => {
                                     className='icon'
                                 />
                                 <div className='nfo'>
-                                    <div>Address</div>
-                                    <div>Kramer 2345</div>
+                                    <div>Phone</div>
+                                    <div>{siteInfo.phone}</div>
                                 </div>
                             </div>
 
@@ -44,8 +63,8 @@ const Footer = () => {
                                     className='icon'
                                 />
                                 <div className='nfo'>
-                                    <div>Address</div>
-                                    <div>Kramer 2345</div>
+                                    <div>Working Hour</div>
+                                    <div>{siteInfo.workingHour}</div>
                                 </div>
                             </div>
 
@@ -55,8 +74,8 @@ const Footer = () => {
                                     className='icon'
                                 />
                                 <div className='nfo'>
-                                    <div>Address</div>
-                                    <div>Kramer 2345</div>
+                                    <div>Email</div>
+                                    <div>{siteInfo.email}</div>
                                 </div>
                             </div>
                         </div>
@@ -71,4 +90,8 @@ const Footer = () => {
     );
 }
 
-export default Footer;
+const mapStateToProps = (state) => ({
+    siteInfo: state.site.data
+});
+
+export default connect(mapStateToProps, { setSiteInfo })(Footer);

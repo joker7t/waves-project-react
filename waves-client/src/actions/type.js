@@ -15,3 +15,6 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 export const ADD_BRAND = "ADD_BRAND";
 export const ADD_WOOD = "ADD_WOOD";
 export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";
+
+//sites
+export const SET_SITE_INFO = "SET_SITE_INFO";
