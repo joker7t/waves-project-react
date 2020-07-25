@@ -331,7 +331,7 @@ router.post('/success-buy', auth, async (req, res) => {
 // @desc    remove image
 // @params  name, lastname, email
 // @access  PRIVATE
-router.post('/update-profile', [auth, admin], async (req, res) => {
+router.post('/update-profile', auth, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() });
