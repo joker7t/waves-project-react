@@ -8,6 +8,7 @@ import axios from 'axios';
 import UserProductBlock from './UserProductBlock';
 import Loader from '../../../utils/Loader';
 import { removeFromCart } from '../../../actions/userAction';
+import Paypal from './Paypal';
 
 const UserCart = ({ userDetails, removeFromCart }) => {
     const [cartItems, setCartItems] = useState([]);
@@ -76,27 +77,27 @@ const UserCart = ({ userDetails, removeFromCart }) => {
 
     const removeItem = async (id) => {
         try {
+            await axios.delete(`/api/users/remove-from-cart?_id=${id}`);
             setCartItems(cartItems.filter(item => item._id !== id));
             removeFromCart(id);
-            const res = await axios.delete(`/api/users/remove-from-cart?_id=${id}`);
-
-            // const datasWithQuantity = [];
-            // res.data.carts.forEach(cart => {
-            //     res.data.cartDetails.forEach(cartDetail => {
-            //         if (cart.id === cartDetail._id) {
-            //             datasWithQuantity.push({
-            //                 ...cartDetail,
-            //                 quantity: cart.quantity
-            //             });
-            //         }
-            //     })
-            // })
-
-            // setCartItems(datasWithQuantity);
-            // calculateTotal(datasWithQuantity);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const transactionError = (error) => {
+        console.log(error);
+    }
+
+    const transactionCanceled = (canceled) => {
+        console.log(canceled);
+    }
+
+    const transactionSuccess = (data) => {
+        console.log(data);
+        setCartItems([]);
+        calculateTotal([]);
+        setShowSuccess(true);
     }
 
     return (
@@ -120,7 +121,12 @@ const UserCart = ({ userDetails, removeFromCart }) => {
                                     </div>
                                 </div>
                                 <div className='paypal_button_container'>
-                                    Paypal
+                                    <Paypal
+                                        toPay={total}
+                                        transactionError={transactionError}
+                                        transactionCanceled={transactionCanceled}
+                                        onSuccess={transactionSuccess}
+                                    />
                                 </div>
                             </div>
                             :
