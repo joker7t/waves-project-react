@@ -6,10 +6,12 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary');
 const formidable = require('express-formidable');
 const mongoose = require('mongoose');
+const async = require('async');
 require('dotenv').config();
 
 const User = require('../models/User');
 const Product = require('../models/Product');
+const Payment = require('../models/Payment');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
@@ -249,6 +251,79 @@ router.delete('/remove-from-cart', auth, async (req, res) => {
         console.log(error.message);
         res.status(500).send('Server error');
     }
+});
+
+// @route   POST api/users/success-buy
+// @desc    add buy items to history
+// @access  PRIVATE
+router.post('/success-buy', auth, async (req, res) => {
+    let histories = [];
+    let transactionData = {};
+
+    //user history
+    req.body.cartDetails.forEach(cartDetail => {
+        histories.push({
+            dateOfPurchase: Date.now(),
+            name: cartDetail.name,
+            brand: cartDetail.brand.name,
+            id: cartDetail._id,
+            price: cartDetail.price,
+            quantity: cartDetail.quantity,
+            paymentId: req.body.paymentData.paymentID
+        });
+    });
+
+    //set data for Payment object
+    transactionData.user = req.user;
+    transactionData.data = req.body.cartDetails;
+    transactionData.products = histories;
+
+    //update histories and carts in related user
+    User.findOneAndUpdate(
+        { _id: req.user.id },
+        { $push: { histories: histories }, $set: { carts: [] } },
+        { new: true },
+        (err, doc) => {
+            if (err) return res.json({ success: false, err });
+
+            //Add payment
+            const payment = new Payment(transactionData);
+            payment.save((err, doc) => {
+                if (err) return res.json({ success: false, err });
+
+                //Update sold in products
+                let products = [];
+                doc.products.forEach(product => {
+                    products.push({
+                        id: product.id,
+                        quantity: product.quantity
+                    });
+                });
+                async.eachOfSeries(
+                    products,
+                    (item, callback) => {
+                        Product.update(
+                            { _id: item.id },
+                            {
+                                $inc:
+                                {
+                                    'sold': item.quantity
+                                }
+                            },
+                            { new: false },
+                            //pass all callbacks from Product, go to async callback
+                            callback
+                        );
+                    },
+                    //async callback
+                    (err) => {
+                        if (err) return res.json({ success: false, err });
+                        res.status(200).send();
+                    }
+                );
+            });
+        }
+    )
 });
 
 module.exports = router;
