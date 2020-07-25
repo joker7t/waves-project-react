@@ -7,7 +7,7 @@ import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 
 const Footer = () => {
     return (
-        <footer className='bck_b_dark'>
+        <footer className='bck_b_dark' style={{ paddingBottom: '20px' }}>
             <div className='container'>
                 <div className='logo'>
                     Waves
@@ -62,7 +62,8 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className='right'>
-
+                        <h2>Be the first to know</h2>
+                        Get all the lastest information on events, sales and offers. You can miss out
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ import ManageCategories from './components/auth/user/ManageCategories';
 import Product from './components/product/Product';
 import UserCart from './components/auth/user/UserCart';
 import UserInformation from './components/auth/user/UserInformation';
+import ManageSite from './components/auth/admin/ManageSite';
 
 function App() {
 
@@ -70,6 +71,7 @@ function App() {
 
             <PrivateRoute needAdminRole={true} exact path='/admin/add_product' component={AddProduct} />
             <PrivateRoute needAdminRole={true} exact path='/admin/manage_categories' component={ManageCategories} />
+            <PrivateRoute needAdminRole={true} exact path='/admin/site_info' component={ManageSite} />
 
             <Redirect to='/' />
           </Switch>

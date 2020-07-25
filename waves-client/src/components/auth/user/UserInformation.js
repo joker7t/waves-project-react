@@ -50,7 +50,7 @@ const UserInformation = ({ userDetails, setUserDetails }) => {
         <div>
             <UserLayout>
                 {userDetails ?
-                    <div style={{ paddingRight: '10px', marginLeft: '20px' }}>
+                    <div style={{ paddingRight: '10px' }}>
                         <h1>User Profile</h1>
                         <form onSubmit={onSubmit}>
                             <input
