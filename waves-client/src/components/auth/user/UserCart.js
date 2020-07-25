@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import UserProductBlock from './UserProductBlock';
 import Loader from '../../../utils/Loader';
-import { removeFromCart } from '../../../actions/userAction';
+import { removeFromCart, clearCart } from '../../../actions/userAction';
 import Paypal from './Paypal';
 
-const UserCart = ({ userDetails, removeFromCart }) => {
+const UserCart = ({ userDetails, removeFromCart, clearCart }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [showTotal, setShowTotal] = useState(false);
@@ -23,7 +23,7 @@ const UserCart = ({ userDetails, removeFromCart }) => {
                 setIsLoading(true);
                 const items = [];
 
-                userDetails && userDetails.carts && userDetails.carts.length > 0 && userDetails.carts.map(cart => {
+                userDetails && userDetails.carts && userDetails.carts.length > 0 && userDetails.carts.forEach(cart => {
                     items.push(cart.id);
                 })
 
@@ -95,6 +95,7 @@ const UserCart = ({ userDetails, removeFromCart }) => {
 
     const transactionSuccess = (data) => {
         console.log(data);
+        clearCart();
         setCartItems([]);
         calculateTotal([]);
         setShowSuccess(true);
@@ -160,4 +161,4 @@ const mapStateToProps = (state) => ({
     userDetails: state.auth.userDetails
 });
 
-export default connect(mapStateToProps, { removeFromCart })(UserCart);
+export default connect(mapStateToProps, { removeFromCart, clearCart })(UserCart);
