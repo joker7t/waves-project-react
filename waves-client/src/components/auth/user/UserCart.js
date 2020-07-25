@@ -93,13 +93,23 @@ const UserCart = ({ userDetails, removeFromCart, clearCart }) => {
         console.log(canceled);
     }
 
-    const transactionSuccess = (data) => {
-        console.log(data);
-        clearCart();
-        setCartItems([]);
-        calculateTotal([]);
-        setShowSuccess(true);
+    const transactionSuccess = async (data) => {
+        try {
+            await axios.post(`/api/products/api/users/success-buy`, {
+                cartDetails: cartItems,
+                paymentData: data
+            });
+
+            clearCart();
+            setCartItems([]);
+            calculateTotal([]);
+            setShowSuccess(true);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
+
 
     return (
         <UserLayout>
