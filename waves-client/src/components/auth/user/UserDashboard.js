@@ -13,7 +13,7 @@ const UserDashboard = ({ userDetails }) => {
                 {userDetails ?
                     <div>
                         <div className='user_nfo_panel'>
-                            <h1>User Information</h1>
+                            <h2>User Information</h2>
                             <div>
                                 <span>{userDetails.name}</span>
                                 <span>{userDetails.lastname}</span>
@@ -29,12 +29,13 @@ const UserDashboard = ({ userDetails }) => {
                             />
                         </div>
 
-                        <div className='user_nfo_panel'>
-                            <h1>History purchases</h1>
+                        <div className='user_nfo_panel history-wrapper'>
+                            <h2>History purchases</h2>
                             <div className='user_product_block'>
                                 <UserHistory products={userDetails.histories} />
                             </div>
                         </div>
+                        <div className='history-hidden-massage'>**Please switch to wider screen to see history purchases</div>
                     </div>
                     :
                     <Loader />

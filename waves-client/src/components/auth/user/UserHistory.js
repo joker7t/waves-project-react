@@ -14,7 +14,7 @@ const UserHistory = ({ products }) => {
         )
 
     return (
-        <div style={{ width: '100%' }}>
+        <div className='history'>
             <table>
                 <thead>
                     <tr>

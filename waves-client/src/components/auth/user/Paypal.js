@@ -17,7 +17,6 @@ const Paypal = ({ toPay, transactionError, transactionCanceled, onSuccess }) => 
                 onSuccess={onSuccess}
                 onCancel={transactionCanceled}
                 style={{
-                    size: 'large',
                     color: 'blue',
                     shape: 'rect',
                     label: 'checkout'
