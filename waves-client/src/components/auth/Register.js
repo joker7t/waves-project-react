@@ -119,6 +119,12 @@ const Register = ({ register }) => {
                                     margin: '10px 0 0 0'
                                 }}
                             />
+                            <div style={{
+                                fontStyle: 'italic',
+                                marginTop: '10px'
+                            }}>
+                                **A mail will be sent when create successfully
+                            </div>
                         </form>
                     </div>
                 </div>
