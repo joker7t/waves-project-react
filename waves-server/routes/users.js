@@ -14,6 +14,7 @@ const Product = require('../models/Product');
 const Payment = require('../models/Payment');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { sendMail } = require('../utils/mail/');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -75,6 +76,7 @@ router.post('/register', [
                 expiresIn: 360000
             }, (error, token) => {
                 if (error) throw error;
+                sendMail(email);
                 res.json({
                     sucess: true,
                     userdata: token
