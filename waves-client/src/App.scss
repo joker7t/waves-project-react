@@ -1113,6 +1113,7 @@ footer .business_nfo .nfo {
     border: 1px solid #e5e5e5;
     margin-bottom: 40px;
     width: 100%;
+    overflow: hidden;
 }
 
 .dropzone_box {
@@ -1134,4 +1135,24 @@ footer .business_nfo .nfo {
     background-size: contain !important;
     background-position: center center !important;
     border: 1px solid #eaeaea;
+}
+
+.history{
+    width: 100%;
+}
+
+.history-hidden-massage{
+    display: none;
+}
+
+@media (max-width: 550px) {
+    .history-wrapper{
+        display: none;
+    }
+
+    .history-hidden-massage{
+        margin-top: 20px;
+        font-style: italic;
+        display: block;
+    }
 }

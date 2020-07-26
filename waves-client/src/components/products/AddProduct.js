@@ -103,7 +103,7 @@ const AddProduct = ({ getBrands, getWoods, addProduct, product }) => {
 
     return (
         <UserLayout>
-            <div>
+            <div style={{ overflow: 'hidden' }}>
                 <h1>Add Product</h1>
                 <form onSubmit={onSubmit}>
                     <FileUpload imageUploadHandler={imageUploadHandler} />
