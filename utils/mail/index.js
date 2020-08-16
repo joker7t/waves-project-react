@@ -2,8 +2,6 @@ const nodemailer = require('nodemailer');
 
 const sendMail = async (mailTo) => {
     try {
-        let testAccount = await nodemailer.createTestAccount();
-
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -30,6 +28,31 @@ const sendMail = async (mailTo) => {
 
 }
 
+//This just amil for porfolio project
+//This is not related to this project
+const sendMailForPorfolio = async (name, email, message) => {
+    try {
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "joker7nbtporfolio@gmail.com", // generated ethereal user
+                pass: "joker7NBT", // generated ethereal password
+            },
+        });
 
+        await transporter.sendMail({
+            from: `Porfolio message joker7nbtporfolio@gmail.com`, // sender address
+            to: `joker7nbt@gmail.com`, // list of receivers
+            subject: `${name} ${email}`, // Subject line
+            text: message, // plain text body
+            html: `<p>${message}</p>`, // html body
+        });
 
-module.exports = { sendMail };
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+module.exports = { sendMail, sendMailForPorfolio };
